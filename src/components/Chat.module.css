@@ -1,0 +1,19 @@
+.wrapper {
+  text-align: center;
+  padding: 10px;
+}
+
+.wrapper .border {
+  width: 450px;
+  border: rgb(1, 1, 1) solid 2px;
+  margin: auto;
+  border-radius: 10px;
+}
+
+.wrapper img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+  padding: 2rem;
+}
