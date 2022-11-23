@@ -6,7 +6,7 @@ import styles from "./LandingPage.module.css";
 
 const LandingPage = () => {
   return (
-    <>
+    <div className={styles["loader-wrapper"]}>
       <img src={Grin} alt="Chameleon" className={styles.loader} />
       <WindupChildren>
         <h4>Welcome to the Chamelii Chatbot Prototype...</h4>
@@ -16,7 +16,7 @@ const LandingPage = () => {
           <span className={styles.karma}>Karma</span> team!
         </h1>
       </WindupChildren>
-    </>
+    </div>
   );
 };
 

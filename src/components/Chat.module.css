@@ -58,6 +58,8 @@
   padding: 2rem;
   transform: translateY(-1rem);
   transition: 0.1s ease-in-out;
+  user-select: none;
+  -webkit-user-drag: none;
 
   cursor: pointer;
 }

@@ -123,7 +123,7 @@ const Chat = () => {
           <div className={styles.border}>
             <img
               src={emotion}
-              alt={`${emotion}`}
+              alt={`${String(emotion).split("/")[3].split(".")[0]}`}
               onMouseDown={emotionHandler}
               onMouseUp={() => setEmotion(Neutral)}
             />

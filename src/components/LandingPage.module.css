@@ -1,17 +1,31 @@
-.loader {
-  width: 300px;
+.loader-wrapper {
+  height: 250px;
 }
 
-h4 {
+.loader {
+  width: 300px;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.loader-wrapper h4 {
   font-size: 1.5rem;
   margin: auto;
   margin-bottom: 5px;
   color: rgb(9, 33, 48);
 }
-h1 {
+.loader-wrapper h1 {
   font-size: 2rem;
   color: rgb(9, 33, 48);
 }
 .karma {
   color: rgb(23, 137, 23);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
