@@ -8,6 +8,7 @@ import SadOpenMouth from "../assets/Designs/Chameleon_Sad (Open).png";
 import Sad from "../assets/Designs/Chameleon_Sad.png";
 import Shrug from "../assets/Designs/Chameleon_Shrug.png";
 import Ouch from "../assets/Sounds/ouch.mp3";
+import Crying from "../assets/Sounds/crying.mp3";
 
 import LandingPage from "./LandingPage";
 
@@ -63,12 +64,18 @@ const Chat = () => {
     if (pokeCounter === 5) {
       setEmotion(Pressure);
 
+      const audio = new Audio(Crying);
+      audio.play();
+
       setMessage(
         <WindupChildren>I'm sorry, I'm not feeling well.</WindupChildren>
       );
 
       timer = setTimeout(() => {
         setEmotion(Sad);
+
+        // stop audio
+        audio.pause();
 
         setMessage(
           <WindupChildren>
@@ -82,10 +89,6 @@ const Chat = () => {
       timer = setTimeout(() => {
         setEmotion(Sad);
       }, 2000);
-    } else if (emotion === Sad) {
-      timer = setTimeout(() => {
-        setEmotion(Neutral);
-      }, 3000);
     } else {
       timer = setTimeout(() => {
         setEmotion(Neutral);

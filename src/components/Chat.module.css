@@ -12,6 +12,8 @@
   margin-bottom: 20px;
 
   background: rgb(69, 135, 173);
+
+  overflow: visible;
 }
 
 .wrapper h2 {
@@ -55,31 +57,38 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 250px;
-  padding: 2rem;
-  transform: translateY(-1rem);
+  width: 200px;
   transition: 0.1s ease-in-out;
   user-select: none;
   -webkit-user-drag: none;
 
+  transform: scale(1);
   cursor: pointer;
 }
 .wrapper img:hover {
-  transform: scale(1.2) translateY(-1rem);
+  transform: scale(1.2);
 }
 
 .wrapper img:active {
   transition: all 0.1s ease-out;
-  transform: scale(1.4) translateY(-1rem);
+  transform: scale(1.4);
 }
 
 .wrapper .pressure {
-  transform: scale(1.8) translateY(-0.1rem);
+  transform: scale(1.8) translateY(0.5rem);
+  overflow: hidden !important;
 }
 .wrapper .pressure:hover {
-  transform: scale(2) translateY(-0.1rem);
+  transform: scale(2) translateY(0.5rem);
+  overflow: hidden !important;
 }
 .wrapper .pressure:active {
-  transform: scale(2.2) translateY(-0.1rem);
+  transform: scale(2.2) translateY(0.5rem);
   transition: none;
+  overflow: hidden !important;
+}
+
+/* when the wrapper contains the pressure class with :has selector and target the border and change the overflow to hidden */
+.wrapper:has(.pressure) .border {
+  overflow: hidden !important;
 }
