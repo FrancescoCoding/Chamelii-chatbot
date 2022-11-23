@@ -1,5 +1,6 @@
 import styles from "./Chat.module.css";
 import React, { useState } from "react";
+import { WindupChildren } from "windups";
 
 import Angry from "../assets/Designs/Chameleon_Angry.png";
 import Confused from "../assets/Designs/Chameleon_Confused.png";
@@ -15,6 +16,9 @@ import Ouch from "../assets/Sounds/ouch.mp3";
 
 const Chat = () => {
   const [emotion, setEmotion] = useState(Neutral);
+  const [message, setMessage] = useState(
+    <WindupChildren>How was your day?</WindupChildren>
+  );
 
   const emotionsArray = [Angry, Shrug, Confused, Grin];
 
@@ -31,11 +35,15 @@ const Chat = () => {
   const emotionHandler = () => {
     setEmotion(emotionsArray[Math.floor(Math.random() * emotionsArray.length)]);
     const audio = new Audio(Ouch);
-    // audio.play();
+    audio.play();
   };
 
   const happyHandler = () => {
     setEmotion(Excited);
+
+    setMessage(
+      <WindupChildren>{"That's amazing! I'm so happy for you!"}</WindupChildren>
+    );
 
     resetEmotion();
   };
@@ -59,7 +67,7 @@ const Chat = () => {
         />
       </div>
       <div className={styles.text}>
-        <h2>How was your day?</h2>
+        <h2>{message}</h2>
         <button className={styles.btn} onClick={happyHandler}>
           My day was great!
         </button>
