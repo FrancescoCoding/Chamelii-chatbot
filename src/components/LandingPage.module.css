@@ -1,0 +1,17 @@
+.loader {
+  width: 300px;
+}
+
+h4 {
+  font-size: 1.5rem;
+  margin: auto;
+  margin-bottom: 5px;
+  color: rgb(9, 33, 48);
+}
+h1 {
+  font-size: 2rem;
+  color: rgb(9, 33, 48);
+}
+.karma {
+  color: rgb(23, 137, 23);
+}

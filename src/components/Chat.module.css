@@ -69,21 +69,3 @@
   transition: all 0.1s ease-out;
   transform: scale(1.4) translateY(-1rem);
 }
-
-.wrapper .loader {
-  width: 300px;
-}
-
-.wrapper h4 {
-  font-size: 1.5rem;
-  margin: auto;
-  margin-bottom: 5px;
-  color: rgb(9, 33, 48);
-}
-.wrapper h1 {
-  font-size: 2rem;
-  color: rgb(9, 33, 48);
-}
-.wrapper .karma {
-  color: rgb(23, 137, 23);
-}

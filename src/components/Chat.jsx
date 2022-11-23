@@ -10,7 +10,9 @@ import Shrug from "../assets/Designs/Chameleon_Shrug.png";
 
 import styles from "./Chat.module.css";
 import React, { useState, useEffect } from "react";
-import { WindupChildren, Pause } from "windups";
+import { WindupChildren } from "windups";
+
+import LandingPage from "./LandingPage";
 
 import Ouch from "../assets/Sounds/ouch.mp3";
 
@@ -39,10 +41,10 @@ const Chat = () => {
     let timer;
 
     const images = [
+      Grin,
       Angry,
       Confused,
       Excited,
-      Grin,
       Neutral,
       Pressure,
       SadOpenMouth,
@@ -60,7 +62,7 @@ const Chat = () => {
     } else if (emotion === Sad) {
       timer = setTimeout(() => {
         setEmotion(Neutral);
-      }, 5000);
+      }, 4000);
     } else {
       timer = setTimeout(() => {
         setEmotion(Neutral);
@@ -113,19 +115,7 @@ const Chat = () => {
 
   return (
     <div className={styles.wrapper}>
-      {isLoading && (
-        <>
-          <img src={Grin} alt="Chameleon" className={styles.loader} />
-          <WindupChildren>
-            <h4>Welcome to the Chamelii Chatbot Prototype...</h4>
-            <Pause ms={800} />
-            <h1>
-              Developed and designed by the{" "}
-              <span className={styles.karma}>Karma</span> team!
-            </h1>
-          </WindupChildren>
-        </>
-      )}
+      {isLoading && <LandingPage />}
       {!isLoading && (
         <>
           <h2 style={{ marginBottom: "10px" }}>Hi, I'm a chamelii.</h2>
