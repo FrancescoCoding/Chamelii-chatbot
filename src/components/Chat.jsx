@@ -47,11 +47,22 @@ const Chat = () => {
     );
   };
 
+  const mehHandler = () => {
+    setEmotion(Confused);
+
+    setMessage(
+      <WindupChildren>{"Why, whats up?"}</WindupChildren>
+    );
+  };
+
   const sadHandler = () => {
     setEmotion(SadOpenMouth);
 
-    resetEmotion();
+    setMessage(
+      <WindupChildren>{"Aw, you wanna talk about it?"}</WindupChildren>
+    );
   };
+
 
   return (
     <div className={styles.wrapper}>
@@ -70,7 +81,7 @@ const Chat = () => {
         <button className={styles.btn} onClick={happyHandler}>
           My day was great!
         </button>
-        <button className={styles.btn} onClick={buttonHandler}>
+        <button className={styles.btn} onClick={mehHandler}>
           My day was fine.
         </button>
         <button className={styles.btn} onClick={sadHandler}>
