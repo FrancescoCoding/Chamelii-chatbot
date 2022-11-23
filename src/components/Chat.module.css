@@ -5,6 +5,7 @@
 
 .wrapper .border {
   width: 500px;
+  height: 313px;
   border: black solid 2px;
   margin: auto;
   border-radius: 10px;
@@ -70,4 +71,15 @@
 .wrapper img:active {
   transition: all 0.1s ease-out;
   transform: scale(1.4) translateY(-1rem);
+}
+
+.wrapper .pressure {
+  transform: scale(1.8) translateY(-0.1rem);
+}
+.wrapper .pressure:hover {
+  transform: scale(2) translateY(-0.1rem);
+}
+.wrapper .pressure:active {
+  transform: scale(2.2) translateY(-0.1rem);
+  transition: none;
 }

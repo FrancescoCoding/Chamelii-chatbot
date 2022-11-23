@@ -3,18 +3,17 @@ import Confused from "../assets/Designs/Chameleon_Confused.png";
 import Excited from "../assets/Designs/Chameleon_Excited.png";
 import Grin from "../assets/Designs/Chameleon_Grin.png";
 import Neutral from "../assets/Designs/Chameleon_Neutral.png";
-import Pressure from "../assets/Designs/Chameleon_Pressure.png";
+import Pressure from "../assets/Designs/Chameleon_pressure_big.png";
 import SadOpenMouth from "../assets/Designs/Chameleon_Sad (Open).png";
 import Sad from "../assets/Designs/Chameleon_Sad.png";
 import Shrug from "../assets/Designs/Chameleon_Shrug.png";
+import Ouch from "../assets/Sounds/ouch.mp3";
+
+import LandingPage from "./LandingPage";
 
 import styles from "./Chat.module.css";
 import React, { useState, useEffect } from "react";
 import { WindupChildren } from "windups";
-
-import LandingPage from "./LandingPage";
-
-import Ouch from "../assets/Sounds/ouch.mp3";
 
 const Chat = () => {
   const determineTimeOfDay = () => {
@@ -31,6 +30,8 @@ const Chat = () => {
 
   const [emotion, setEmotion] = useState(Neutral);
   const [isLoading, setIsLoading] = useState(true);
+  const [pokeCounter, setPokeCounter] = useState(0);
+  const [totalPokes, setTotalPokes] = useState(0);
   const [message, setMessage] = useState(
     <WindupChildren>
       Good {determineTimeOfDay()}! How was your day?
@@ -55,6 +56,28 @@ const Chat = () => {
       new Image().src = image;
     });
 
+    if (pokeCounter > 4) {
+      setPokeCounter(0);
+    }
+
+    if (pokeCounter === 5) {
+      setEmotion(Pressure);
+
+      setMessage(
+        <WindupChildren>I'm sorry, I'm not feeling well.</WindupChildren>
+      );
+
+      timer = setTimeout(() => {
+        setEmotion(Sad);
+
+        setMessage(
+          <WindupChildren>
+            Please stop poking me! How was your day?
+          </WindupChildren>
+        );
+      }, 3000);
+    }
+
     if (emotion === SadOpenMouth) {
       timer = setTimeout(() => {
         setEmotion(Sad);
@@ -62,11 +85,11 @@ const Chat = () => {
     } else if (emotion === Sad) {
       timer = setTimeout(() => {
         setEmotion(Neutral);
-      }, 4000);
+      }, 3000);
     } else {
       timer = setTimeout(() => {
         setEmotion(Neutral);
-      }, 4000);
+      }, 3000);
     }
 
     setTimeout(() => {
@@ -76,13 +99,16 @@ const Chat = () => {
     return () => {
       clearTimeout(timer);
     };
-  }, [emotion]);
+  }, [emotion, pokeCounter]);
 
   const ouch = new Audio(Ouch);
   const emotionsArray = [Angry, Shrug, Confused, Grin];
 
   const emotionHandler = () => {
     setEmotion(emotionsArray[Math.floor(Math.random() * emotionsArray.length)]);
+
+    setPokeCounter(pokeCounter + 1);
+    setTotalPokes(totalPokes + 1);
 
     ouch.play();
   };
@@ -122,10 +148,17 @@ const Chat = () => {
 
           <div className={styles.border}>
             <img
+              className={emotion === Pressure ? styles.pressure : ""}
               src={emotion}
               alt={`${String(emotion).split("/")[3].split(".")[0]}`}
-              onMouseDown={emotionHandler}
-              onMouseUp={() => setEmotion(Neutral)}
+              onMouseDown={
+                emotion !== Pressure && emotion !== Sad ? emotionHandler : null
+              }
+              onMouseUp={() =>
+                emotion !== Pressure && emotion !== Sad
+                  ? setEmotion(Neutral)
+                  : null
+              }
             />
           </div>
           <div className={styles.text}>
@@ -140,6 +173,10 @@ const Chat = () => {
               I had a really bad day.
             </button>
           </div>
+
+          <p style={{ marginTop: "20px" }}>
+            You poked me {totalPokes} times today.
+          </p>
         </>
       )}
     </div>
