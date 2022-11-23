@@ -20,6 +20,7 @@ const Chat = () => {
     <WindupChildren>How was your day?</WindupChildren>
   );
 
+  const ouch = new Audio(Ouch);
   const emotionsArray = [Angry, Shrug, Confused, Grin];
 
   const buttonHandler = () => {
@@ -34,8 +35,8 @@ const Chat = () => {
 
   const emotionHandler = () => {
     setEmotion(emotionsArray[Math.floor(Math.random() * emotionsArray.length)]);
-    const audio = new Audio(Ouch);
-    audio.play();
+
+    ouch.play();
   };
 
   const happyHandler = () => {
@@ -44,8 +45,6 @@ const Chat = () => {
     setMessage(
       <WindupChildren>{"That's amazing! I'm so happy for you!"}</WindupChildren>
     );
-
-    resetEmotion();
   };
 
   const sadHandler = () => {
