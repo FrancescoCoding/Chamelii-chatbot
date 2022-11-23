@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/static/css/main.0213e287.css",
+    "main.js": "/static/js/main.5edca44f.js",
+    "static/media/Chameleon_Excited.png": "/static/media/Chameleon_Excited.4a99fbd2bb3d22f46bed.png",
+    "static/media/Chameleon_Confused.png": "/static/media/Chameleon_Confused.104590ee7c23e15a0758.png",
+    "static/media/Chameleon_Grin.png": "/static/media/Chameleon_Grin.058cd151e80b973511fe.png",
+    "static/media/Chameleon_Sad.png": "/static/media/Chameleon_Sad.3195b3c653850f829efa.png",
+    "static/media/Chameleon_Sad (Open).png": "/static/media/Chameleon_Sad (Open).5c18ca8f3e1e4901be1a.png",
+    "static/media/Chameleon_Angry.png": "/static/media/Chameleon_Angry.536aff7602eaf33c770c.png",
+    "static/media/Chameleon_Shrug.png": "/static/media/Chameleon_Shrug.0182bc243eb27eff0eb3.png",
+    "static/media/Chameleon_Pressure.png": "/static/media/Chameleon_Pressure.f0543ad7b9d9ac4b1aa6.png",
+    "static/media/Chameleon_Neutral.png": "/static/media/Chameleon_Neutral.5250a5971abd602766c2.png",
+    "static/media/Logo.png": "/static/media/Logo.d5a6ba3a59f3160c1742.png",
+    "static/media/ouch.mp3": "/static/media/ouch.65d0a18807864915f153.mp3",
+    "index.html": "/index.html",
+    "main.0213e287.css.map": "/static/css/main.0213e287.css.map",
+    "main.5edca44f.js.map": "/static/js/main.5edca44f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0213e287.css",
+    "static/js/main.5edca44f.js"
+  ]
+}
