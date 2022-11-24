@@ -1,6 +1,5 @@
 .wrapper {
   text-align: center;
-  padding: 10px;
 }
 
 .wrapper .border {
@@ -119,4 +118,28 @@
 .label {
   font-size: 20px;
   color: green;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4rem;
+  background-color: var(--chamelii-primary);
+  height: 8rem;
+}
+
+.navbar img {
+  width: 200px;
+  border-radius: 10px;
+}
+
+.navbar h1 {
+  font-size: 26px;
+}
+
+.navbar h1:hover {
+  transform: scale(1.1);
+  font-weight: 700;
 }

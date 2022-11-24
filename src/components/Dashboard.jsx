@@ -7,7 +7,7 @@ import Confused from "../assets/Designs/Chameleon_Confused.png";
 import Excited from "../assets/Designs/Chameleon_Excited.png";
 import Neutral from "../assets/Designs/Chameleon_Neutral.png";
 
-const Dashboard = () => {
+const Dashboard = ({ dashboard, data }) => {
   const [selected, setSelected] = useState(undefined);
   const [hovered, setHovered] = useState(undefined);
   const [isMount, setIsMount] = useState(true);
@@ -15,39 +15,36 @@ const Dashboard = () => {
   const [emotion, setEmotion] = useState(Neutral);
   const [emotionString, setEmotionString] = useState("");
 
-  const [pValues, setPValues] = useState(null);
-
-  let data = [
-    { title: "Confused", value: 100, color: "#29a7aa" },
-    { title: "Happy", value: 50, color: "#3cae3c" },
-    { title: "Sad", value: 100, color: "#3935a8" },
+  let chartData = [
+    { title: "Confused", value: data.confused, color: "#29a7aa" },
+    { title: "Happy", value: data.happy, color: "#3cae3c" },
+    { title: "Sad", value: data.sad, color: "#3935a8" },
   ];
 
   const isNotNull = emotionString !== "";
-  
+
   useEffect(() => {
-    if(isMount){
+    if (isMount) {
       setIsMount(false);
       return;
-  }
-  
+    }
+
     if (selected === undefined) {
       setEmotion(Neutral);
-      setEmotionString ("");
-      
+      setEmotionString("");
     } else if (selected === 0) {
-        setEmotion(Confused);
-        setEmotionString ("Your staff are Confused");
+      setEmotion(Confused);
+      setEmotionString("Your staff are Confused");
     } else if (selected === 1) {
       setEmotion(Excited);
-      setEmotionString ("Your staff are Happy");
+      setEmotionString("Your staff are Happy");
     } else {
       setEmotion(SadOpenMouth);
-      setEmotionString ("Your staff are Sad");
+      setEmotionString("Your staff are Sad");
     }
-  }, [selected]);
+  }, [selected, isMount]);
 
-  data = data.map((entry, i) => {
+  chartData = chartData.map((entry, i) => {
     if (hovered === i) {
       return {
         ...entry,
@@ -72,7 +69,7 @@ const Dashboard = () => {
         />
         <div className={styles.chart}>
           <PieChart
-            data={data}
+            data={chartData}
             label={({ dataEntry }) => `${Math.round(dataEntry.percentage)} %`}
             labelStyle={{
               ...defaultLabelStyle,
@@ -92,9 +89,7 @@ const Dashboard = () => {
           />
         </div>
       </div>
-      {isNotNull && (
-        <h2 style={{ marginBottom: "10px" }}>{emotionString}</h2>
-      )}
+      {isNotNull && <h2 style={{ marginBottom: "10px" }}>{emotionString}</h2>}
     </>
   );
 };

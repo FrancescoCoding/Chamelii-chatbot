@@ -11,6 +11,7 @@ import Ouch from "../assets/Sounds/ouch.mp3";
 import Crying from "../assets/Sounds/crying.mp3";
 import ProgressBar from "@ramonak/react-progress-bar";
 
+import Logo from "../assets/Logo.png";
 import LandingPage from "./LandingPage";
 import Dashboard from "./Dashboard";
 
@@ -39,13 +40,17 @@ const Chat = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [pokeCounter, setPokeCounter] = useState(0);
   const [totalPokes, setTotalPokes] = useStickyState(0, "pokeCounter");
+  const [statusBarUpdate, setStatusBarUpdate] = useState(0);
   const [message, setMessage] = useState(
     <WindupChildren>
       Good {determineTimeOfDay()}! How was your day?
     </WindupChildren>
   );
 
-  const [register, setRegister] = useState({sad: 0, confused: 0, happy: 0});
+  const [register, setRegister] = useStickyState(
+    { sad: 50, confused: 50, happy: 50 },
+    "register"
+  );
 
   const [isDashboard, setIsDashboard] = useState(false);
 
@@ -118,7 +123,7 @@ const Chat = () => {
     return () => {
       clearTimeout(timer);
     };
-  }, [emotion, pokeCounter]);
+  }, [emotion, pokeCounter, totalPokes]);
 
   const ouch = new Audio(Ouch);
   const emotionsArray = [Angry, Shrug, Grin];
@@ -134,6 +139,9 @@ const Chat = () => {
 
   const happyHandler = () => {
     setEmotion(Excited);
+    setStatusBarUpdate(statusBarUpdate + 10);
+
+    setRegister({ ...register, happy: register.happy + 5 });
 
     setMessage(
       <WindupChildren>{"That's amazing! I'm so happy for you!"}</WindupChildren>
@@ -142,6 +150,9 @@ const Chat = () => {
 
   const mehHandler = () => {
     setEmotion(Confused);
+    setStatusBarUpdate(statusBarUpdate + 5);
+
+    setRegister({ ...register, confused: register.confused + 5 });
 
     setMessage(<WindupChildren>{"Why, what's up?"}</WindupChildren>);
   };
@@ -149,18 +160,37 @@ const Chat = () => {
   const sadHandler = () => {
     setEmotion(SadOpenMouth);
 
+    if (statusBarUpdate > 1) {
+      setStatusBarUpdate(statusBarUpdate - 2);
+    } else {
+      setStatusBarUpdate(0);
+    }
+
+    setRegister({ ...register, sad: register.sad + 5 });
+
     setMessage(
       <WindupChildren>{"Aw, you wanna talk about it?"}</WindupChildren>
     );
   };
 
   const dashboardViewHandler = () => {
-    setIsDashboard(true);
-  }
+    setIsDashboard(!isDashboard);
+  };
+
+  const reloadPage = (reloadPage) => {
+    window.location.reload();
+  };
 
   return (
     <div className={styles.wrapper}>
+      {/* NAVBAR */}
+      <div className={styles.navbar}>
+        <img onClick={reloadPage} style={{ cursor: "pointer" }} src={Logo} alt="chamelii-logo" />
+        <h1 onClick={dashboardViewHandler} style={{ cursor: "pointer", color: "white" }}>Dashboard</h1>
+      </div>
+      {/* LANDING PAGE */}
       {isLoading && <LandingPage />}
+      {/* CHATBOT */}
       {!isLoading && !isDashboard && (
         <>
           <h2 style={{ marginBottom: "10px" }}>Hi, I'm a chamelii.</h2>
@@ -180,7 +210,7 @@ const Chat = () => {
           </div>
 
           <ProgressBar
-            completed={80}
+            completed={statusBarUpdate}
             className="wrapper2"
             barContainerClassName="container"
             completedClassName="barCompleted"
@@ -200,19 +230,13 @@ const Chat = () => {
             </button>
           </div>
 
-          <button onClick={dashboardViewHandler}>
-            Dashboard
-          </button>
-
           <p style={{ marginTop: "20px" }}>
             You poked me {totalPokes} times so far.
           </p>
         </>
       )}
-      {!isLoading && isDashboard && (
-        // DASHBOARD
-        <Dashboard data={setIsDashboard} />
-      )}
+      {/* DASHBOARD */}
+      {!isLoading && isDashboard && <Dashboard data={register} />}
     </div>
   );
 };
