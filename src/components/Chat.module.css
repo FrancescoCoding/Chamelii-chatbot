@@ -1,6 +1,5 @@
 .wrapper {
   text-align: center;
-  padding: 10px;
 }
 
 .wrapper .border {
@@ -53,7 +52,7 @@
   transition: 0.2s ease;
 }
 
-.wrapper img {
+.wrapper .border img {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -75,20 +74,62 @@
 }
 
 .wrapper .pressure {
-  transform: scale(1.8) translateY(0.5rem);
+  transform: scale(1.5) translateY(2rem) !important;
   overflow: hidden !important;
 }
 .wrapper .pressure:hover {
-  transform: scale(2) translateY(0.5rem);
+  transform: scale(2) translateY(1rem) !important;
   overflow: hidden !important;
 }
 .wrapper .pressure:active {
-  transform: scale(2.2) translateY(0.5rem);
-  transition: none;
+  transform: scale(2.2) translateY(1rem) !important;
+  transition: none !important;
   overflow: hidden !important;
 }
 
 /* when the wrapper contains the pressure class with :has selector and target the border and change the overflow to hidden */
 .wrapper:has(.pressure) .border {
   overflow: hidden !important;
+}
+
+.wrapper2 {
+  border: 3px solid blue;
+}
+
+.container {
+  background-color: pink;
+}
+
+.barCompleted {
+  background-color: lightblue;
+  width: 80%;
+}
+
+.label {
+  font-size: 20px;
+  color: green;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4rem;
+  background-color: var(--chamelii-primary);
+  height: 8rem;
+}
+
+.navbar img {
+  width: 200px;
+  border-radius: 10px;
+}
+
+.navbar h1 {
+  font-size: 26px;
+}
+
+.navbar h1:hover {
+  transform: scale(1.1);
+  font-weight: 700;
 }

@@ -9,8 +9,11 @@ import Sad from "../assets/Designs/Chameleon_Sad.png";
 import Shrug from "../assets/Designs/Chameleon_Shrug.png";
 import Ouch from "../assets/Sounds/ouch.mp3";
 import Crying from "../assets/Sounds/crying.mp3";
+import ProgressBar from "./ProgressBar";
 
+import Logo from "../assets/Logo.png";
 import LandingPage from "./LandingPage";
+import Dashboard from "./Dashboard";
 
 import useStickyState from "../hooks/useStickyState";
 
@@ -22,7 +25,9 @@ const Chat = () => {
   const determineTimeOfDay = () => {
     const date = new Date();
     const hour = date.getHours();
-    if (hour >= 0 && hour < 12) {
+    if (hour >= 0 && hour < 6) {
+      return "night";
+    } else if (hour >= 6 && hour < 11) {
       return "morning";
     } else if (hour >= 12 && hour < 17) {
       return "afternoon";
@@ -35,11 +40,22 @@ const Chat = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [pokeCounter, setPokeCounter] = useState(0);
   const [totalPokes, setTotalPokes] = useStickyState(0, "pokeCounter");
+  const [statusBarUpdate, setStatusBarUpdate] = useState(0);
+  const [statusBarColour, setStatusBarColour] = useState("#68b2c1");
   const [message, setMessage] = useState(
     <WindupChildren>
       Good {determineTimeOfDay()}! How was your day?
     </WindupChildren>
   );
+
+  const [register, setRegister] = useStickyState({
+    sad: 50,
+    confused: 50,
+    happy: 50,
+  });
+
+  const [isDashboard, setIsDashboard] = useState(false);
+  const pissedArray = [Angry, Shrug];
 
   useEffect(() => {
     let timer;
@@ -55,7 +71,7 @@ const Chat = () => {
       Sad,
       Shrug,
     ];
-    images.forEach(image => {
+    images.forEach((image) => {
       new Image().src = image;
     });
 
@@ -88,18 +104,31 @@ const Chat = () => {
         setMessage(<WindupChildren>{"What's wrong?"}</WindupChildren>);
       }, 2000);
     } else if (emotion === Pressure) {
+      
       timer = setTimeout(() => {
-        setEmotion(Neutral);
+        setEmotion(emotionsArray[Math.floor(Math.random() * pissedArray.length)]);
+
         setMessage(
           <WindupChildren>
-            Please stop poking me! How was your day?
+            Please stop poking me!
           </WindupChildren>
         );
       }, 3000);
     } else {
       timer = setTimeout(() => {
+        setMessage(
+          <WindupChildren>
+            How was your day?
+          </WindupChildren>
+        );
+
         setEmotion(Neutral);
       }, 3000);
+    }
+
+    if (statusBarUpdate >= 100) {
+      setStatusBarUpdate(100);
+      return;
     }
 
     // Finish loading after 5 seconds
@@ -110,7 +139,7 @@ const Chat = () => {
     return () => {
       clearTimeout(timer);
     };
-  }, [emotion, pokeCounter]);
+  }, [emotion, pokeCounter, totalPokes, statusBarUpdate]);
 
   const ouch = new Audio(Ouch);
   const emotionsArray = [Angry, Shrug, Grin];
@@ -126,6 +155,12 @@ const Chat = () => {
 
   const happyHandler = () => {
     setEmotion(Excited);
+    setStatusBarColour("#3cae3c");
+    if (statusBarUpdate < 100) {
+      setStatusBarUpdate(statusBarUpdate + 10);
+    }
+
+    setRegister({ ...register, happy: register.happy + 100 });
 
     setMessage(
       <WindupChildren>{"That's amazing! I'm so happy for you!"}</WindupChildren>
@@ -133,23 +168,62 @@ const Chat = () => {
   };
 
   const mehHandler = () => {
+    setStatusBarColour("#29a7aa");
     setEmotion(Confused);
+
+    if (statusBarUpdate < 100) {
+      setStatusBarUpdate(statusBarUpdate + 5);
+    }
+
+    setRegister({ ...register, confused: register.confused + 100 });
 
     setMessage(<WindupChildren>{"Why, what's up?"}</WindupChildren>);
   };
 
   const sadHandler = () => {
+    setStatusBarColour("#3935a8");
     setEmotion(SadOpenMouth);
+
+    if (statusBarUpdate > 1) {
+      setStatusBarUpdate(statusBarUpdate - 2);
+    }
+
+    setRegister({ ...register, sad: register.sad + 100 });
 
     setMessage(
       <WindupChildren>{"Aw, you wanna talk about it?"}</WindupChildren>
     );
   };
 
+  const dashboardViewHandler = () => {
+    setIsDashboard(!isDashboard);
+  };
+
+  const reloadPage = (reloadPage) => {
+    window.location.reload();
+  };
+
   return (
     <div className={styles.wrapper}>
+      {/* NAVBAR */}
+      <div className={styles.navbar}>
+        <img
+          onClick={reloadPage}
+          style={{ cursor: "pointer" }}
+          src={Logo}
+          alt="chamelii-logo"
+        />
+        <h1
+          onClick={dashboardViewHandler}
+          style={{ cursor: "pointer", color: "white" }}
+        >
+          Dashboard
+        </h1>
+      </div>
+      {/* LANDING PAGE */}
       {isLoading && <LandingPage />}
-      {!isLoading && (
+      {/* CHATBOT */}
+      {!isLoading && !isDashboard && (
         <>
           <h2 style={{ marginBottom: "10px" }}>Hi, I'm a chamelii.</h2>
 
@@ -166,6 +240,13 @@ const Chat = () => {
               }
             />
           </div>
+
+          <ProgressBar
+            bgcolor={statusBarColour}
+            progress={statusBarUpdate}
+            height={30}
+          />
+
           <div className={styles.text}>
             <h2 style={{ height: "60px" }}>{message}</h2>
             <button className={styles.btn} onClick={happyHandler}>
@@ -184,6 +265,8 @@ const Chat = () => {
           </p>
         </>
       )}
+      {/* DASHBOARD */}
+      {!isLoading && isDashboard && <Dashboard data={register} />}
     </div>
   );
 };
