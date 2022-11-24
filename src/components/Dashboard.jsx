@@ -8,27 +8,27 @@ import Excited from "../assets/Designs/Chameleon_Excited.png";
 import Neutral from "../assets/Designs/Chameleon_Neutral.png";
 
 const Dashboard = ({ dashboard, data }) => {
-  const [selected, setSelected] = useState(undefined);
-  const [hovered, setHovered] = useState(undefined);
-  const [isMount, setIsMount] = useState(true);
-
-  const [emotion, setEmotion] = useState(Neutral);
+  
+  const [selected, setSelected] = useState();
   const [emotionString, setEmotionString] = useState("");
 
+  const [hovered, setHovered] = useState(undefined);
+
+  const [emotion, setEmotion] = useState(Neutral);
+  
+  const biggestValue = Math.max(...Object.values(data));
+  
+  const biggestKey = Object.keys(data).find(key => data[key] === biggestValue);
+  
   let chartData = [
     { title: "Confused", value: data.confused, color: "#29a7aa" },
     { title: "Happy", value: data.happy, color: "#3cae3c" },
     { title: "Sad", value: data.sad, color: "#3935a8" },
   ];
-
+  
   const isNotNull = emotionString !== "";
 
   useEffect(() => {
-    if (isMount) {
-      setIsMount(false);
-      return;
-    }
-
     if (selected === undefined) {
       setEmotion(Neutral);
       setEmotionString("");
@@ -42,7 +42,20 @@ const Dashboard = ({ dashboard, data }) => {
       setEmotion(SadOpenMouth);
       setEmotionString("Your staff are Sad");
     }
-  }, [selected, isMount]);
+  }, [selected]);
+
+  useEffect(() => {
+    
+    if(biggestKey === 'confused') {
+      setSelected(0);
+    } else if (biggestKey === 'happy') {
+      setSelected(1);
+    } else {
+      setSelected(2);
+    }
+  }, [])
+
+  console.log(selected);
 
   chartData = chartData.map((entry, i) => {
     if (hovered === i) {

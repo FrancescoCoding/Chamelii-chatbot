@@ -141,7 +141,7 @@ const Chat = () => {
     setEmotion(Excited);
     setStatusBarUpdate(statusBarUpdate + 10);
 
-    setRegister({ ...register, happy: register.happy + 5 });
+    setRegister({ ...register, happy: register.happy + 100 });
 
     setMessage(
       <WindupChildren>{"That's amazing! I'm so happy for you!"}</WindupChildren>
@@ -150,9 +150,9 @@ const Chat = () => {
 
   const mehHandler = () => {
     setEmotion(Confused);
-    setStatusBarUpdate(statusBarUpdate + 5);
+    setStatusBarUpdate(statusBarUpdate + 100);
 
-    setRegister({ ...register, confused: register.confused + 5 });
+    setRegister({ ...register, confused: register.confused + 100 });
 
     setMessage(<WindupChildren>{"Why, what's up?"}</WindupChildren>);
   };
