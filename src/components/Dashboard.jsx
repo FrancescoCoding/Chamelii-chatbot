@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Dashboard.module.css";
 import { PieChart } from "react-minimal-pie-chart";
 
@@ -7,25 +7,27 @@ import Confused from "../assets/Designs/Chameleon_Confused.png";
 import Excited from "../assets/Designs/Chameleon_Excited.png";
 import Neutral from "../assets/Designs/Chameleon_Neutral.png";
 
+import { WindupChildren } from "windups";
+
 const Dashboard = ({ dashboard, data }) => {
-  
   const [selected, setSelected] = useState();
-  const [emotionString, setEmotionString] = useState("");
 
   const [hovered, setHovered] = useState(undefined);
-
   const [emotion, setEmotion] = useState(Neutral);
-  
+  const [emotionString, setEmotionString] = useState("");
+
   const biggestValue = Math.max(...Object.values(data));
-  
-  const biggestKey = Object.keys(data).find(key => data[key] === biggestValue);
-  
+
+  const biggestKey = Object.keys(data).find(
+    (key) => data[key] === biggestValue
+  );
+
   let chartData = [
     { title: "Confused", value: data.confused, color: "#29a7aa" },
     { title: "Happy", value: data.happy, color: "#3cae3c" },
     { title: "Sad", value: data.sad, color: "#3935a8" },
   ];
-  
+
   const isNotNull = emotionString !== "";
 
   useEffect(() => {
@@ -34,26 +36,27 @@ const Dashboard = ({ dashboard, data }) => {
       setEmotionString("");
     } else if (selected === 0) {
       setEmotion(Confused);
-      setEmotionString("Your staff are Confused");
+      setEmotionString(
+        <WindupChildren>Are you sure your staff is ok?</WindupChildren>
+      );
     } else if (selected === 1) {
       setEmotion(Excited);
-      setEmotionString("Your staff are Happy");
+      setEmotionString(<WindupChildren>Your staff are Happy</WindupChildren>);
     } else {
       setEmotion(SadOpenMouth);
-      setEmotionString("Your staff are Sad");
+      setEmotionString(<WindupChildren>Your staff are Sad</WindupChildren>);
     }
   }, [selected]);
 
   useEffect(() => {
-    
-    if(biggestKey === 'confused') {
+    if (biggestKey === "confused") {
       setSelected(0);
-    } else if (biggestKey === 'happy') {
+    } else if (biggestKey === "happy") {
       setSelected(1);
     } else {
       setSelected(2);
     }
-  }, [])
+  }, []);
 
   console.log(selected);
 
@@ -102,7 +105,9 @@ const Dashboard = ({ dashboard, data }) => {
           />
         </div>
       </div>
-      {isNotNull && <h2 style={{ marginBottom: "10px" }}>{emotionString}</h2>}
+      {isNotNull && (
+        <h2 style={{ marginTop: "6rem", fontSize: "3rem" }}>{emotionString}</h2>
+      )}
     </>
   );
 };

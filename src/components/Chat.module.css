@@ -74,32 +74,22 @@
 }
 
 .wrapper .pressure {
-  transform: scale(1.8) translateY(0.5rem);
+  transform: scale(1.5) translateY(2rem) !important;
   overflow: hidden !important;
 }
 .wrapper .pressure:hover {
-  transform: scale(2) translateY(0.5rem);
+  transform: scale(2) translateY(1rem) !important;
   overflow: hidden !important;
 }
 .wrapper .pressure:active {
-  transform: scale(2.2) translateY(0.5rem);
-  transition: none;
+  transform: scale(2.2) translateY(1rem) !important;
+  transition: none !important;
   overflow: hidden !important;
 }
 
 /* when the wrapper contains the pressure class with :has selector and target the border and change the overflow to hidden */
 .wrapper:has(.pressure) .border {
   overflow: hidden !important;
-}
-
-/* Progress bar */
-.progress {
-  margin:auto;
-  border-radius: 5px;
-  background: #fff;
-  height: 20px;
-  width: 35%;
-  color:red;
 }
 
 .wrapper2 {

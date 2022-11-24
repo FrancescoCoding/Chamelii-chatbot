@@ -9,7 +9,7 @@ import Sad from "../assets/Designs/Chameleon_Sad.png";
 import Shrug from "../assets/Designs/Chameleon_Shrug.png";
 import Ouch from "../assets/Sounds/ouch.mp3";
 import Crying from "../assets/Sounds/crying.mp3";
-import ProgressBar from "@ramonak/react-progress-bar";
+import ProgressBar from "./ProgressBar";
 
 import Logo from "../assets/Logo.png";
 import LandingPage from "./LandingPage";
@@ -41,18 +41,21 @@ const Chat = () => {
   const [pokeCounter, setPokeCounter] = useState(0);
   const [totalPokes, setTotalPokes] = useStickyState(0, "pokeCounter");
   const [statusBarUpdate, setStatusBarUpdate] = useState(0);
+  const [statusBarColour, setStatusBarColour] = useState("#68b2c1");
   const [message, setMessage] = useState(
     <WindupChildren>
       Good {determineTimeOfDay()}! How was your day?
     </WindupChildren>
   );
 
-  const [register, setRegister] = useStickyState(
-    { sad: 50, confused: 50, happy: 50 },
-    "register"
-  );
+  const [register, setRegister] = useStickyState({
+    sad: 50,
+    confused: 50,
+    happy: 50,
+  });
 
   const [isDashboard, setIsDashboard] = useState(false);
+  const pissedArray = [Angry, Shrug];
 
   useEffect(() => {
     let timer;
@@ -101,18 +104,31 @@ const Chat = () => {
         setMessage(<WindupChildren>{"What's wrong?"}</WindupChildren>);
       }, 2000);
     } else if (emotion === Pressure) {
+      
       timer = setTimeout(() => {
-        setEmotion(Neutral);
+        setEmotion(emotionsArray[Math.floor(Math.random() * pissedArray.length)]);
+
         setMessage(
           <WindupChildren>
-            Please stop poking me! How was your day?
+            Please stop poking me!
           </WindupChildren>
         );
       }, 3000);
     } else {
       timer = setTimeout(() => {
+        setMessage(
+          <WindupChildren>
+            How was your day?
+          </WindupChildren>
+        );
+
         setEmotion(Neutral);
       }, 3000);
+    }
+
+    if (statusBarUpdate >= 100) {
+      setStatusBarUpdate(100);
+      return;
     }
 
     // Finish loading after 5 seconds
@@ -123,7 +139,7 @@ const Chat = () => {
     return () => {
       clearTimeout(timer);
     };
-  }, [emotion, pokeCounter, totalPokes]);
+  }, [emotion, pokeCounter, totalPokes, statusBarUpdate]);
 
   const ouch = new Audio(Ouch);
   const emotionsArray = [Angry, Shrug, Grin];
@@ -139,7 +155,10 @@ const Chat = () => {
 
   const happyHandler = () => {
     setEmotion(Excited);
-    setStatusBarUpdate(statusBarUpdate + 10);
+    setStatusBarColour("#3cae3c");
+    if (statusBarUpdate < 100) {
+      setStatusBarUpdate(statusBarUpdate + 10);
+    }
 
     setRegister({ ...register, happy: register.happy + 100 });
 
@@ -149,8 +168,12 @@ const Chat = () => {
   };
 
   const mehHandler = () => {
+    setStatusBarColour("#29a7aa");
     setEmotion(Confused);
-    setStatusBarUpdate(statusBarUpdate + 100);
+
+    if (statusBarUpdate < 100) {
+      setStatusBarUpdate(statusBarUpdate + 5);
+    }
 
     setRegister({ ...register, confused: register.confused + 100 });
 
@@ -158,15 +181,14 @@ const Chat = () => {
   };
 
   const sadHandler = () => {
+    setStatusBarColour("#3935a8");
     setEmotion(SadOpenMouth);
 
     if (statusBarUpdate > 1) {
       setStatusBarUpdate(statusBarUpdate - 2);
-    } else {
-      setStatusBarUpdate(0);
     }
 
-    setRegister({ ...register, sad: register.sad + 5 });
+    setRegister({ ...register, sad: register.sad + 100 });
 
     setMessage(
       <WindupChildren>{"Aw, you wanna talk about it?"}</WindupChildren>
@@ -185,8 +207,18 @@ const Chat = () => {
     <div className={styles.wrapper}>
       {/* NAVBAR */}
       <div className={styles.navbar}>
-        <img onClick={reloadPage} style={{ cursor: "pointer" }} src={Logo} alt="chamelii-logo" />
-        <h1 onClick={dashboardViewHandler} style={{ cursor: "pointer", color: "white" }}>Dashboard</h1>
+        <img
+          onClick={reloadPage}
+          style={{ cursor: "pointer" }}
+          src={Logo}
+          alt="chamelii-logo"
+        />
+        <h1
+          onClick={dashboardViewHandler}
+          style={{ cursor: "pointer", color: "white" }}
+        >
+          Dashboard
+        </h1>
       </div>
       {/* LANDING PAGE */}
       {isLoading && <LandingPage />}
@@ -210,11 +242,9 @@ const Chat = () => {
           </div>
 
           <ProgressBar
-            completed={statusBarUpdate}
-            className="wrapper2"
-            barContainerClassName="container"
-            completedClassName="barCompleted"
-            labelClassName="label"
+            bgcolor={statusBarColour}
+            progress={statusBarUpdate}
+            height={30}
           />
 
           <div className={styles.text}>
