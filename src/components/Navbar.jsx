@@ -5,7 +5,7 @@ import Logo from "../assets/Logo.png";
 const Navbar = () => {
   return (
     <div className={styles.navbar}>
-      <img src={Logo} alt="" />
+      <img src={Logo} alt="chamelii-logo" />
       <h1 style={{ color: "white" }}>Dashboard</h1>
     </div>
   );

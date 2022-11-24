@@ -12,6 +12,8 @@ import Crying from "../assets/Sounds/crying.mp3";
 
 import LandingPage from "./LandingPage";
 
+import useStickyState from "../hooks/useStickyState";
+
 import styles from "./Chat.module.css";
 import React, { useState, useEffect } from "react";
 import { WindupChildren } from "windups";
@@ -32,7 +34,7 @@ const Chat = () => {
   const [emotion, setEmotion] = useState(Neutral);
   const [isLoading, setIsLoading] = useState(true);
   const [pokeCounter, setPokeCounter] = useState(0);
-  const [totalPokes, setTotalPokes] = useState(0);
+  const [totalPokes, setTotalPokes] = useStickyState(0, "pokeCounter");
   const [message, setMessage] = useState(
     <WindupChildren>
       Good {determineTimeOfDay()}! How was your day?
@@ -60,41 +62,47 @@ const Chat = () => {
     if (pokeCounter > 4) {
       setPokeCounter(0);
     }
+    const crying = new Audio(Crying);
 
     if (pokeCounter === 5) {
       setEmotion(Pressure);
 
-      const audio = new Audio(Crying);
-      audio.play();
+      // Every 15 pokes, playing the crying sound
+      if (totalPokes % 3 === 0) {
+        crying.play();
+      }
 
       setMessage(
         <WindupChildren>I'm sorry, I'm not feeling well.</WindupChildren>
       );
 
       timer = setTimeout(() => {
+        crying.pause();
+      }, 2400);
+    }
+
+    if (emotion === SadOpenMouth) {
+      timer = setTimeout(() => {
         setEmotion(Sad);
 
-        // stop audio
-        audio.pause();
-
+        setMessage(<WindupChildren>{"What's wrong?"}</WindupChildren>);
+      }, 2000);
+    } else if (emotion === Pressure) {
+      timer = setTimeout(() => {
+        setEmotion(Neutral);
         setMessage(
           <WindupChildren>
             Please stop poking me! How was your day?
           </WindupChildren>
         );
       }, 3000);
-    }
-
-    if (emotion === SadOpenMouth) {
-      timer = setTimeout(() => {
-        setEmotion(Sad);
-      }, 2000);
     } else {
       timer = setTimeout(() => {
         setEmotion(Neutral);
       }, 3000);
     }
 
+    // Finish loading after 5 seconds
     setTimeout(() => {
       setIsLoading(false);
     }, 5000);
@@ -105,7 +113,7 @@ const Chat = () => {
   }, [emotion, pokeCounter]);
 
   const ouch = new Audio(Ouch);
-  const emotionsArray = [Angry, Shrug, Confused, Grin];
+  const emotionsArray = [Angry, Shrug, Grin];
 
   const emotionHandler = () => {
     setEmotion(emotionsArray[Math.floor(Math.random() * emotionsArray.length)]);
@@ -136,10 +144,6 @@ const Chat = () => {
     setMessage(
       <WindupChildren>{"Aw, you wanna talk about it?"}</WindupChildren>
     );
-
-    setTimeout(() => {
-      setMessage(<WindupChildren>{"What's wrong?"}</WindupChildren>);
-    }, 2000);
   };
 
   return (
@@ -154,11 +158,9 @@ const Chat = () => {
               className={emotion === Pressure ? styles.pressure : ""}
               src={emotion}
               alt={`${String(emotion).split("/")[3].split(".")[0]}`}
-              onMouseDown={
-                emotion !== Pressure && emotion !== Sad ? emotionHandler : null
-              }
+              onMouseDown={emotion === Neutral ? emotionHandler : null}
               onMouseUp={() =>
-                emotion !== Pressure && emotion !== Sad
+                emotion === Shrug || emotion === Angry || emotion === Grin
                   ? setEmotion(Neutral)
                   : null
               }
@@ -178,7 +180,7 @@ const Chat = () => {
           </div>
 
           <p style={{ marginTop: "20px" }}>
-            You poked me {totalPokes} times today.
+            You poked me {totalPokes} times so far.
           </p>
         </>
       )}
