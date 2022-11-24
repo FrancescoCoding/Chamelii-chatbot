@@ -45,6 +45,8 @@ const Chat = () => {
     </WindupChildren>
   );
 
+  const [register, setRegister] = useState({sad: 0, confused: 0, happy: 0});
+
   const [isDashboard, setIsDashboard] = useState(false);
 
   useEffect(() => {
@@ -209,7 +211,7 @@ const Chat = () => {
       )}
       {!isLoading && isDashboard && (
         // DASHBOARD
-        <Dashboard view={setIsDashboard} />
+        <Dashboard data={setIsDashboard} />
       )}
     </div>
   );

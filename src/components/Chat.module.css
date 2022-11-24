@@ -53,7 +53,7 @@
   transition: 0.2s ease;
 }
 
-.wrapper img {
+.wrapper .border img {
   display: block;
   margin-left: auto;
   margin-right: auto;

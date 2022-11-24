@@ -1,0 +1,14 @@
+.chart{
+    width: 400px;
+    transform: translateY(25px);
+}
+
+.chart-wrapper {
+    margin-top: 10rem;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.chart-wrapper img {
+    width: 300px
+}
