@@ -9,8 +9,10 @@ import Sad from "../assets/Designs/Chameleon_Sad.png";
 import Shrug from "../assets/Designs/Chameleon_Shrug.png";
 import Ouch from "../assets/Sounds/ouch.mp3";
 import Crying from "../assets/Sounds/crying.mp3";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 import LandingPage from "./LandingPage";
+import Dashboard from "./Dashboard";
 
 import styles from "./Chat.module.css";
 import React, { useState, useEffect } from "react";
@@ -20,7 +22,9 @@ const Chat = () => {
   const determineTimeOfDay = () => {
     const date = new Date();
     const hour = date.getHours();
-    if (hour >= 0 && hour < 12) {
+    if (hour >= 0 && hour < 6) {
+      return "night";
+    } else if (hour >= 6 && hour < 11) {
       return "morning";
     } else if (hour >= 12 && hour < 17) {
       return "afternoon";
@@ -39,6 +43,8 @@ const Chat = () => {
     </WindupChildren>
   );
 
+  const [isDashboard, setIsDashboard] = useState(false);
+
   useEffect(() => {
     let timer;
 
@@ -53,7 +59,7 @@ const Chat = () => {
       Sad,
       Shrug,
     ];
-    images.forEach(image => {
+    images.forEach((image) => {
       new Image().src = image;
     });
 
@@ -142,10 +148,14 @@ const Chat = () => {
     }, 2000);
   };
 
+  const dashboardViewHandler = () => {
+    setIsDashboard(true);
+  }
+
   return (
     <div className={styles.wrapper}>
       {isLoading && <LandingPage />}
-      {!isLoading && (
+      {!isLoading && !isDashboard && (
         <>
           <h2 style={{ marginBottom: "10px" }}>Hi, I'm a chamelii.</h2>
 
@@ -164,6 +174,15 @@ const Chat = () => {
               }
             />
           </div>
+
+          <ProgressBar
+            completed={80}
+            className="wrapper2"
+            barContainerClassName="container"
+            completedClassName="barCompleted"
+            labelClassName="label"
+          />
+
           <div className={styles.text}>
             <h2 style={{ height: "60px" }}>{message}</h2>
             <button className={styles.btn} onClick={happyHandler}>
@@ -177,10 +196,18 @@ const Chat = () => {
             </button>
           </div>
 
+          <button onClick={dashboardViewHandler}>
+            Dashboard
+          </button>
+
           <p style={{ marginTop: "20px" }}>
             You poked me {totalPokes} times today.
           </p>
         </>
+      )}
+      {!isLoading && isDashboard && (
+        // DASHBOARD
+        <Dashboard view={setIsDashboard} />
       )}
     </div>
   );
