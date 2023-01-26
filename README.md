@@ -14,7 +14,7 @@ Designed and developed by the **Karma** team from Robert Gordon University:
 - Joshua Oakman
 ### Character Design:
 - Marshall Kennedy
-### Management and Wireframe Design:
+### Project Management and Wireframe Design:
 - Euan Doyle
 - Natasha Henry
 - Megan Morris
