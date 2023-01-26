@@ -1,7 +1,7 @@
 # Chamelii Chatbot Prototype
 
 ## [Live Website](https://chamelii-prototype.netlify.app/)
-This is a Prototype for a chatbot with a dashboard for [Chamelii](https://www.agcc.co.uk/news-article/osi-launch-chamelii-mental-health-software-solutions-company), a mental health software solutions company.
+This is a Prototype for a chatbot with a dashboard for the [Chamelii](https://www.agcc.co.uk/news-article/osi-launch-chamelii-mental-health-software-solutions-company) App, owned by [Omniscient Safety Innovations](https://www.omniscientsafetyinnovations.com/chamelii) Ltd, a mental health software solutions company.
 
 ## Built with React
 
